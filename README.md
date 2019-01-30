@@ -40,17 +40,17 @@ and extract the rar file to `./checkpoint/`.
 
 
 ## Prerequisites
-- tensorflow r1.1
-- numpy 1.11.0
-- scipy 0.17.0
-- pillow 3.3.0
+- tensorflow 1.10.0
+- numpy 1.14.5
+- scipy 1.1.0
+- pillow 5.4.1
 
 ## Getting Started
 ### Installation
 - Install tensorflow from https://github.com/tensorflow/tensorflow
 - Clone this repo:
 ```bash
-git clone https://github.com/xhujoy/CycleGAN-tensorflow
+git clone https://github.com/BrookInternSOMA/CycleGAN-tensorflow
 cd CycleGAN-tensorflow
 ```
 
