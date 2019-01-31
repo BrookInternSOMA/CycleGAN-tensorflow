@@ -104,11 +104,11 @@ class CycleGAN(object):
         )
 
         self.test_A = tf.placeholder(tf.float32,
-                                     [None, self.image_size, self.image_size,
-                                      self.input_c_dim], name='test_A')
+                                     [None, self.image_size, self.image_size, self.input_c_dim],
+                                     name='test_A')
         self.test_B = tf.placeholder(tf.float32,
-                                     [None, self.image_size, self.image_size,
-                                      self.output_c_dim], name='test_B')
+                                     [None, self.image_size, self.image_size, self.output_c_dim],
+                                     name='test_B')
         self.testB = self.generator(self.test_A, self.options, True, name="generatorA2B")
         self.testA = self.generator(self.test_B, self.options, True, name="generatorB2A")
 
@@ -153,15 +153,15 @@ class CycleGAN(object):
                 batch_images = np.array(batch_images).astype(np.float32)
 
                 # Update G network and record fake outputs
-                fake_A, fake_B, _, summary_str = self.sess.run(
-                    [self.fake_A, self.fake_B, self.g_optim, self.g_sum],
+                fake_A, fake_B, _, summary_str, g_loss = self.sess.run(
+                    [self.fake_A, self.fake_B, self.g_optim, self.g_sum, self.g_loss],
                     feed_dict={self.real_data: batch_images, self.lr: lr})
                 self.writer.add_summary(summary_str, counter)
                 [fake_A, fake_B] = self.pool([fake_A, fake_B])
 
                 # Update D network
-                _, summary_str = self.sess.run(
-                    [self.d_optim, self.d_sum],
+                _, summary_str, d_loss = self.sess.run(
+                    [self.d_optim, self.d_sum, self.d_loss],
                     feed_dict={self.real_data: batch_images,
                                self.fake_A_sample: fake_A,
                                self.fake_B_sample: fake_B,
@@ -169,8 +169,8 @@ class CycleGAN(object):
                 self.writer.add_summary(summary_str, counter)
 
                 counter += 1
-                print(("Epoch: [%2d] [%4d/%4d] time: %4.4f" % (
-                    epoch, idx, batch_idxs, time.time() - start_time)))
+                print(("Epoch: [%2d/%3d] [%4d/%4d] time: %4.4f g_loss: %2.6f d_loss: %2.6f" % (
+                    epoch, args.epoch, idx, batch_idxs, time.time() - start_time, g_loss, d_loss)))
 
                 if np.mod(counter, args.print_freq) == 1:
                     self.sample_model(args.sample_dir, epoch, idx)
