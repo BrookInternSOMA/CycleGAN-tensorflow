@@ -1,3 +1,5 @@
+### OSX
+.DS_Store
 
 ### JupyterNotebook ###
 .ipynb_checkpoints
@@ -131,6 +133,5 @@ dmypy.json
 .idea/*
 logs/*
 checkpoint/*
-datasets/*
 test/*
 sample/*
