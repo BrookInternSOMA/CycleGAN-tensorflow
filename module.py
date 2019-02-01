@@ -6,29 +6,6 @@ from utils import *
 
 def discriminator(image, options, reuse=False, name="discriminator"):
     with tf.variable_scope(name):
-        # image is 1600 x 1200 x input_c_dim
-        if reuse:
-            tf.get_variable_scope().reuse_variables()
-        else:
-            assert tf.get_variable_scope().reuse is False
-
-
-        # print(options)
-
-        h0 = lrelu(conv2d(image, options.df_dim, name='d_h0_conv'))
-        # h0 is (800 x 600 x self.df_dim)
-        h1 = lrelu(instance_norm(conv2d(h0, options.df_dim * 2, name='d_h1_conv'), 'd_bn1'))
-        # h1 is (400 x 300 x self.df_dim*2)
-        h2 = lrelu(instance_norm(conv2d(h1, options.df_dim * 4, name='d_h2_conv'), 'd_bn2'))
-        # h2 is (200 x 150 x self.df_dim*4)
-        h3 = lrelu(instance_norm(conv2d(h2, options.df_dim * 8, s=1, name='d_h3_conv'), 'd_bn3'))
-        # h3 is (100 x 75 x self.df_dim*8)
-        h4 = conv2d(h3, 1, s=1, name='d_h3_pred')
-        # h4 is (100 x 75 x 1)
-        return h4
-
-"""
-    with tf.variable_scope(name):
         # image is 256 x 256 x input_c_dim
         if reuse:
             tf.get_variable_scope().reuse_variables()
@@ -46,7 +23,7 @@ def discriminator(image, options, reuse=False, name="discriminator"):
         h4 = conv2d(h3, 1, s=1, name='d_h3_pred')
         # h4 is (32 x 32 x 1)
         return h4
-"""
+
 
 def generator_unet(image, options, reuse=False, name="generator"):
 
